@@ -2,16 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
-import os
 from werkzeug.utils import secure_filename
-import sqlite3
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'cairocoders-ednalan'
 # SQLite database URI
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flask.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///momo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
 
@@ -20,8 +17,26 @@ class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), index=True, unique=True)
     email = db.Column(db.String(150), index=True, unique=True)
-    password = db.Column(db.String(255), index=True, unique=True)
+    password = db.Column(db.String(255), index=True)
     role = db.Column(db.String(50), index=True)
+
+class Item(db.Model):
+    __tablename__ = "item"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    qty = db.Column(db.Integer, nullable=False)
+    minimum_qty = db.Column(db.Integer, nullable=False)
+    max_qty = db.Column(db.Integer, nullable=False)
+    image = db.Column(db.String(100), nullable=False)
+
+class Contact(db.Model):
+    __tablename__ = "contact"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+
 @app.route("/")
 def welcome():
     return redirect(url_for('login'))
@@ -93,17 +108,6 @@ def logout():
     # Logic to logout the user
     return redirect(url_for('login'))  # Redirect to another page after logout
 
-class Item(db.Model):
-    __tablename__ = "item"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    qty = db.Column(db.Integer, nullable=False)  # Quantity of the item available
-    minimum_qty = db.Column(db.Integer, nullable=False)  # Minimum quantity allowed for purchase
-    max_qty = db.Column(db.Integer, nullable=False)  # Maximum quantity allowed for purchase
-    image = db.Column(db.String(100), nullable=False)
-
-
 @app.route('/crud')
 def crud():
     return render_template('crud.html')
@@ -115,10 +119,9 @@ def insert_data():
     qty = request.form['qty']
     minimum_qty = request.form['minimum_qty']
     max_qty = request.form['max_qty']
-    print(f"Received form data: Name: {name}, Price: {price}, Quantity: {qty}, Min Qty: {minimum_qty}, Max Qty: {max_qty}")
 
-    image = request.files['image']
     # Save the image to the appropriate directory
+    image = request.files['image']
     image_path = 'static/image/' + secure_filename(image.filename)
     image.save(image_path)
 
@@ -136,7 +139,6 @@ def user():
     users = Users.query.all()  # Fetch all users from the database
     return render_template('user.html', users=users)  # Pass users to the template
 
-
 @app.route('/delete_user', methods=['POST'])
 def delete_user():
     user_id = request.form.get('user_id')  # Retrieve the user ID from the form data
@@ -148,104 +150,14 @@ def delete_user():
     # Redirect back to the admin page after deleting the user
     return redirect(url_for('user'))
 
-
-
-# Route to generate the page displaying data from the item table
 @app.route('/items')
 def display_items():
     items = Item.query.all()
     return render_template('items.html', items=items)
 
-
 @app.route('/about')
 def about():
     return render_template('about.html')
 
-@app.route('/update-item/<int:item_id>', methods=['GET', 'POST'])
-def update_item_form(item_id):
-    item = Item.query.get(item_id)
-    if request.method == 'POST':
-        # Logic to update item based on form submission
-        item.name = request.form['name']
-        item.price = request.form['price']
-        item.qty = request.form['qty']
-        item.minimum_qty = request.form['minimum_qty']
-        item.max_qty = request.form['max_qty']
-        db.session.commit()
-        return redirect(url_for('admin'))  # Redirect to admin page after updating item
-    return render_template('update_item_form.html', item=item)
-
-@app.route('/delete-item/<int:item_id>', methods=['DELETE'])
-def delete_item(item_id):
-    item = Item.query.get(item_id)
-    if item:
-        db.session.delete(item)
-        db.session.commit()
-        return jsonify({'message': 'Item deleted successfully'}), 200
-    else:
-        return jsonify({'message': 'Item not found'}), 404
-
-
-class Contact(db.Model):
-    __tablename__ = "contact"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
-    message = db.Column(db.Text, nullable=False)
-
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
-
-@app.route('/submit_contact_form', methods=['POST'])
-def submit_contact_form():
-    name = request.form['name']
-    email = request.form['email']
-    message = request.form['message']
-
-    new_contact = Contact(name=name, email=email, message=message)
-    db.session.add(new_contact)
-    db.session.commit()
-
-    return jsonify({'message': 'Message sent successfully!'})
-
-@app.route('/order')
-def order():
-    items = Item.query.all()
-    return render_template('order.html', items=items)
-
-@app.route('/payment/<int:item_id>', methods=['GET', 'POST'])
-def payment(item_id):
-    if request.method == 'GET':
-        item = Item.query.get(item_id)
-        if item:
-            return render_template('payment.html', product_name=item.name, quantity=item.qty, max_quantity=item.max_qty, min_quantity=item.minimum_qty)
-        else:
-            return 'Item not found', 404
-    elif request.method == 'POST':
-        # Get the quantity ordered from the form
-        ordered_quantity = int(request.form['ordered_quantity'])
-        
-        # Get the item from the database
-        item = Item.query.get(item_id)
-        if item:
-            # Check if there is enough stock for the order
-            if item.qty >= ordered_quantity:
-                # Subtract the ordered quantity from the stock quantity in the database
-                item.qty -= ordered_quantity
-                db.session.commit()
-                return redirect(url_for('dashboard'))  # Redirect to dashboard or a confirmation page
-            else:
-                return 'Insufficient stock', 400  # Return an error if there is not enough stock
-        else:
-            return 'Item not found', 404
-
-@app.route('/contact-messages')
-def display_contact_messages():
-    messages = Contact.query.all()  # Fetch all contact messages from the database
-    return render_template('contact_messages.html', messages=messages)
-
-
 if __name__ == '__main__':
-    db.create_all()
     app.run(debug=True)
