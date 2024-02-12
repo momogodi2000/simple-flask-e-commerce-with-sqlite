@@ -1,0 +1,38 @@
+/* Add your custom styles here */
+
+/* Navbar */
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 18px;
+  }
+  
+  /* About Section */
+  #about {
+    padding-top: 100px;
+  }
+  
+  #about h2 {
+    margin-bottom: 30px;
+  }
+  
+  .card {
+    margin-top: 30px;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px 0;
+  }
+  
+  footer p {
+    margin-bottom: 0;
+  }
+  
+
+  

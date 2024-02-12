@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About E-facilite</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">E-facilite</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    
+  </div>
+</nav>
+
+<!-- About Section -->
+<section id="about" class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <h2 class="display-4">About E-facilite</h2>
+        <p class="lead">E-facilite is an innovative e-commerce platform that has been providing exceptional service for over a year.</p>
+        <p>We strive to offer our customers the most convenient and enjoyable shopping experience, with a wide range of products and top-notch customer service.</p>
+        <p>Founded by Momo Yvan, a visionary CEO with a passion for technology and innovation, E-facilite has quickly become a leading player in the online retail industry.</p>
+        <!-- Redirect Button -->
+        <a onclick="redirectToAdmin()" class="btn btn-primary">Go to Admin Panel</a>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Our CEO: Momo Yvan</h5>
+            <p class="card-text">Momo Yvan is a seasoned entrepreneur and computer engineer with a deep understanding of the e-commerce landscape.</p>
+            <p>Under his leadership, E-facilite has achieved remarkable growth and success, earning the trust and loyalty of thousands of satisfied customers.</p>
+            <p>With his visionary leadership and expertise in technology, Momo Yvan continues to drive innovation and excellence at E-facilite, ensuring that we remain at the forefront of the industry.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <p>&copy; 2024 E-facilite. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Custom JavaScript -->
+
+</body>
+</html>
+
+
+<script>
+    // Add your custom JavaScript here
+
+// Function to redirect to admin.html
+function redirectToAdmin() {
+    window.location.href = 'admin'; // Modify the URL as needed
+}
+</script>

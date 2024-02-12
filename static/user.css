@@ -1,0 +1,16 @@
+/* Add your custom CSS styles here */
+.dashboard-app {
+    margin-top: 20px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.btn-delete {
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-delete:hover {
+    transform: scale(1.1);
+}

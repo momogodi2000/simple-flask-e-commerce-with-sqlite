@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients Dashboard</title>
+    <!-- Link to style.css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+
+<body>
+    <div class='dashboard'>
+        <div class="dashboard-nav">
+            <header>
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+                <a href="#" class="brand-logo"><i class="fas fa-anchor"></i> <span>Clients pannel</span></a>
+            </header>
+            <nav class="dashboard-nav-list">
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-home"></i> Home </a>
+                <a href="/order" class="dashboard-nav-item active"> <i class="fas fa-tachometer-alt"></i> Order new item
+                </a>
+                
+                <a href="/contact" class="dashboard-nav-item"><i class="fas fa-file-upload"></i> Contact Us </a>
+               
+                <div class='dashboard-nav-dropdown'>
+                </div>
+                
+                <!-- Logout Button -->
+                <a href="{{ url_for('logout') }}" class="dashboard-nav-item"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+                <!-- Logout Form -->
+                <form id="logout-form" action="{{ url_for('logout') }}" method="POST" style="display: none;">
+                </form>
+            </nav>
+        </div>
+        <div class='dashboard-app'>
+            <header class='dashboard-toolbar'><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a></header>
+            <div class='dashboard-content'>
+                <div class='container'>
+                    <div class='card'>
+                        <div class='card-header'>
+                            <h1>Welcome</h1>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Link to style.js -->
+    <script src="{{ url_for('static', filename='admin.js') }}"></script>
+</body>
+
+</html>

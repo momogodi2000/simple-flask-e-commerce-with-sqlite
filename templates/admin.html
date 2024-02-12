@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Link to admin.css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+
+<body>
+    <div class='dashboard'>
+        <div class="dashboard-nav">
+            <header>
+                <div class="notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                    <div class="notification-panel">
+                        <h3>Notifications</h3>
+                        <ul>
+                            <li>Notification 1</li>
+                            <li>Notification 2</li>
+                            <li>Notification 3</li>
+                        </ul>
+                    </div>
+                </div>
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+                <a href="#" class="brand-logo"><i class="fas fa-anchor"></i> <span>Admin Panel</span></a>
+            </header>
+
+            <nav class="dashboard-nav-list">
+                <a href="#" class="dashboard-nav-item active"><i class="fas fa-home"></i> Home </a> 
+                <a href="/crud" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Add Item</a>
+                <a href="/items" class="dashboard-nav-item active"><i class="fas fa-home"></i> Product Item </a>
+                <a href="/user" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Number of user</a>
+                <a href="/about" class="dashboard-nav-item"><i class="fas fa-file-upload"></i> About Us </a>
+                <a href="/contact-messages" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> contact message</a>
+               
+                <div class='dashboard-nav-dropdown'>
+                </div>
+                
+                <!-- Logout Button -->
+                <a href="{{ url_for('logout') }}" class="dashboard-nav-item"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+                <!-- Logout Form -->
+                <form id="logout-form" action="{{ url_for('logout') }}" method="POST" style="display: none;">
+                </form>
+            </nav>
+        </div>
+        <div class='dashboard-app'>
+            <header class='dashboard-toolbar'>
+                <h1>Welcome admin</h1> <!-- Move the welcome message here -->
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+            </header>
+            <div class='dashboard-content'>
+                <div class='container'>
+                    <div class='card'>
+                        <div class='card-body'>
+                            <p>This is your admin dashboard. From here, you can manage various aspects of your application.</p>
+                            <p>You can add items, view product items, manage users, and more.</p>
+                            <!-- You can add more content here to provide additional context or instructions -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Link to Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

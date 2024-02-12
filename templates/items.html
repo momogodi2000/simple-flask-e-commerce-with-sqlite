@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Items</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Link to custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='item.css') }}">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>Items</h1>
+        <!-- Return Button -->
+        <a href="{{ url_for('admin') }}" class="btn btn-primary">Return to Admin Page</a>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Price FCFA</th>
+                    <th>Quantity</th>
+                    <th>Minimum Quantity</th>
+                    <th>Maximum Quantity</th>
+                    <th>Image</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.qty }}</td>
+                    <td>{{ item.minimum_qty }}</td>
+                    <td>{{ item.max_qty }}</td>
+                    <td>
+                        <img src="{{ url_for('static', filename='image/' + item.image) }}" alt="{{ item.name }}"
+                            style="max-width: 100px; max-height: 100px;">
+                    </td>
+                    <td>
+                        {% if item.qty > 0 %}
+                            {% if item.qty >= item.max_qty %}
+                                <span class="badge badge-success">In Stock</span>
+                            {% elif item.qty < item.minimum_qty %}
+                                <span class="badge badge-warning">Stock Alert</span>
+                            {% else %}
+                                <span class="badge badge-primary">Stock Available</span>
+                            {% endif %}
+                        {% else %}
+                            <span class="badge badge-danger">Out of Stock</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('update_item_form', item_id=item.id) }}" class="btn btn-primary">Update</a>
+                        <button onclick="deleteItemPrompt()" class="btn btn-danger">Delete Item</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Link to Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Link to admin.js -->
+    <script src="{{ url_for('static', filename='item.js') }}"></script>
+</body>
+
+</html>

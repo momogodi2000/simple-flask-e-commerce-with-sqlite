@@ -1,0 +1,42 @@
+/* Center align the content */
+.container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* Style the form input */
+.input-group {
+    margin-bottom: 20px;
+}
+
+/* Style the buy button */
+#buy-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#buy-button:hover {
+    background-color: #0056b3;
+}
+
+/* Style the product details */
+.product-details {
+    margin-bottom: 20px;
+}
+
+/* Style the quantity input */
+#quantity-input {
+    width: 100px;
+    text-align: center;
+}
+
+/* Style the quantity labels */
+.quantity-label {
+    font-weight: bold;
+    margin-bottom: 10px;
+}

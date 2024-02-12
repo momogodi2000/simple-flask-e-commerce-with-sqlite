@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Page</title>
+    <!-- Link to the CSS file using url_for -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='crud.css') }}">
+</head>
+<body>
+    <div class="crud-container">
+        <h1>CRUD Operations</h1>
+        <!-- Modified button to redirect to admin.html -->
+        <button onclick="redirectToAdmin()">Return to Admin Panel</button>
+        <form id="crud-form" enctype="multipart/form-data" action="{{ url_for('insert_data') }}" method="POST">
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="price">Price FCFA:</label>
+            <input type="text" id="price" name="price" required>
+            <label for="qty">Quantity:</label>
+            <input type="number" id="qty" name="qty" required>
+            <label for="minimum_qty">Minimum Quantity:</label>
+            <input type="number" id="minimum_qty" name="minimum_qty" required>
+            <label for="max_qty">Maximum Quantity:</label>
+            <input type="number" id="max_qty" name="max_qty" required>
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+            <button type="submit">Insert</button>
+        </form>
+        <div id="data-container"></div>
+    </div>
+
+    <!-- Link to the JavaScript file using url_for -->
+    <script src="{{ url_for('static', filename='crud.js') }}"></script>
+   
+</body>
+</html>

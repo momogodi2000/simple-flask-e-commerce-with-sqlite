@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Item</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='updatecss') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mb-4">Update Item</h1>
+        <form id="update-item-form" method="post">
+            <div class="form-group">
+                <label for="name">Product Name:</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ item.name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Price FCFA:</label>
+                <input type="text" class="form-control" id="price" name="price" value="{{ item.price }}" required>
+            </div>
+            <div class="form-group">
+                <label for="qty">Quantity:</label>
+                <input type="text" class="form-control" id="qty" name="qty" value="{{ item.qty }}" required>
+            </div>
+            <div class="form-group">
+                <label for="minimum_qty">Minimum Quantity:</label>
+                <input type="text" class="form-control" id="minimum_qty" name="minimum_qty" value="{{ item.minimum_qty }}" required>
+            </div>
+            <div class="form-group">
+                <label for="max_qty">Maximum Quantity:</label>
+                <input type="text" class="form-control" id="max_qty" name="max_qty" value="{{ item.max_qty }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='update.js') }}"></script>
+</body>
+
+</html>
