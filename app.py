@@ -1,11 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session, send_file, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session, send_file, send_from_directory, make_response
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
 from werkzeug.utils import secure_filename
 import subprocess
 from flask_login import login_required, LoginManager
+import zipfile
 import shutil
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'cairocoders-ednalan'
@@ -267,27 +269,57 @@ def backup2():
     # Logic for the backup route
     return render_template('backup2.html')
 
-@app.route('/backup', methods=['GET'])
+# Backup route
+@app.route('/backup', methods=['POST'])
 def backup():
-    backup_path = request.args.get('backup_path')
-    database_file_path = '//school CA/backup'  # Replace with the actual path to the database file
+    # Create a backup of the SQLite database
+    backup_path = 'backup.db'
+    shutil.copy('momo.db', backup_path)
     
-    try:
-        shutil.copy2(database_file_path, backup_path)
-        return 'Backup completed successfully.'
-    except Exception as e:
-        return f'Backup failed. Error: {str(e)}'
+    # Zip the backup file
+    with zipfile.ZipFile('backup.zip', 'w') as zipf:
+        zipf.write(backup_path)
+    
+    # Remove the backup file
+    os.remove(backup_path)
+    
+    # Create a response object with the backup file
+    response = make_response(send_file('backup.zip', as_attachment=True, mimetype='application/zip'))
+    
+    # Set the Content-Disposition header to attachment and provide a filename for the download
+    response.headers['Content-Disposition'] = f'attachment; filename="backup.zip"'
 
-@app.route('/restore', methods=['GET'])
+    # Return the response object
+    return response
+
+# Restore route
+@app.route('/restore', methods=['POST'])
 def restore():
-    restore_path = request.args.get('restore_path')
-    database_file_path = 'G:\note yrs 3\python project\backup'  # Replace with the actual path to the database file
+    # Get the uploaded restore file
+    restore_file = request.files['restore_file']
     
-    try:
-        shutil.copy2(restore_path, database_file_path)
-        return 'Restore completed successfully.'
-    except Exception as e:
-        return f'Restore failed. Error: {str(e)}'
+    # Save the uploaded restore file
+    restore_file.save('restore.zip')
+    
+    # Extract the restore file
+    with zipfile.ZipFile('restore.zip', 'r') as zipf:
+        zipf.extractall()
+    
+    # Remove the restore zip file
+    os.remove('restore.zip')
+    
+    # Replace the current database with the restored database
+    os.remove('momo.db')
+    shutil.copy('restore.db', 'momo.db')
+    
+    # Remove the restored database file
+    os.remove('restore.db')
+    
+    # Return a success message
+    return 'Database restored successfully!'
+
+
+
 
 
 if __name__ == '__main__':
