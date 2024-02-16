@@ -1,8 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session, send_file, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
 from werkzeug.utils import secure_filename
+import subprocess
+from flask_login import login_required, LoginManager
+import shutil
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'cairocoders-ednalan'
@@ -104,10 +107,26 @@ def dashboard():
     # Logic for the dashboard route
     return render_template('dashboard.html')
 
+
 @app.route('/logout', methods=['POST'])
 def logout():
-    # Logic to logout the user
+    # Clear the entire session data
+    session.clear()
+    # Redirect to the login page
     return redirect(url_for('login'))  # Redirect to another page after logout
+
+# Define a function to check if a user is logged in
+def is_logged_in():
+    return 'user_id' in session and 'user_role' in session
+
+# Define a decorator to restrict access to authenticated users
+def login_required(f):
+    def decorated_function(*args, **kwargs):
+        if not is_logged_in():
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 @app.route('/crud')
 def crud():
@@ -243,6 +262,32 @@ def display_contact_messages():
     messages = Contact.query.all()  # Fetch all contact messages from the database
     return render_template('contact_messages.html', messages=messages)
 
+@app.route('/backup2')
+def backup2():
+    # Logic for the backup route
+    return render_template('backup2.html')
+
+@app.route('/backup', methods=['GET'])
+def backup():
+    backup_path = request.args.get('backup_path')
+    database_file_path = '//school CA/backup'  # Replace with the actual path to the database file
+    
+    try:
+        shutil.copy2(database_file_path, backup_path)
+        return 'Backup completed successfully.'
+    except Exception as e:
+        return f'Backup failed. Error: {str(e)}'
+
+@app.route('/restore', methods=['GET'])
+def restore():
+    restore_path = request.args.get('restore_path')
+    database_file_path = 'G:\note yrs 3\python project\backup'  # Replace with the actual path to the database file
+    
+    try:
+        shutil.copy2(restore_path, database_file_path)
+        return 'Restore completed successfully.'
+    except Exception as e:
+        return f'Restore failed. Error: {str(e)}'
 
 
 if __name__ == '__main__':

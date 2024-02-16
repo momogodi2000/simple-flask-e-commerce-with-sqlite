@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backup and Restore</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Backup and Restore Database
+          </div>
+          <div class="card-body">
+            <!-- Backup and Restore buttons -->
+            <div class="mt-3">
+              <button class="btn btn-primary btn-block" onclick="backupDatabase()">Backup Database</button>
+              <button class="btn btn-primary btn-block" onclick="restoreDatabase()">Restore Database</button>
+            </div>
+            <!-- Return button -->
+            <div class="mt-3">
+              <a href="/login" class="btn btn-secondary btn-block">Return to Login Form</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    function backupDatabase() {
+      // Make AJAX request to backup route
+      $.get('/backup', function(response) {
+        alert(response);
+      });
+    }
+  
+    function restoreDatabase() {
+      // Make AJAX request to restore route
+      $.get('/restore', function(response) {
+        alert(response);
+      });
+    }
+  </script>
+</body>
+</html>
